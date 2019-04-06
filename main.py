@@ -48,10 +48,12 @@ class Listing(Base):
 
     listing_price = Column('listing_price', Numeric)
     date_of_listing = Column('date_of_listing', String)
-    sold = Column('sold', Boolean)
+    sold = Column('status', String)
 
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
+    office_id = Column(Integer, ForeignKey('Office.id'))
+    office = relationship(Office)
     house_id = Column(Integer, ForeignKey('House.id'))
     house = relationship(House)
 
@@ -75,8 +77,12 @@ class Sale(Base):
 
     listing_id = Column(Integer, ForeignKey('Listing.id'))
     listing = relationship(Listing)
+    buyer_id = Column(Integer, ForeignKey('Buyer.id'))
+    buyer = relationship(Buyer)
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
+    office_id = Column(Integer, ForeignKey('Office.id'))
+    office = relationship(Office)
 
 
 class Cycle(Base):
@@ -86,6 +92,18 @@ class Cycle(Base):
     name = Column('name', String)
     starting_date = Column('starting_date', String)
     ending_date = Column('ending_date', String)
+
+
+class AgentCommission(Base):
+    __tablename__ = 'AgentCommission'
+    id = Column('id', Integer, primary_key=True)
+
+    commission_amount = Column('commission_amount', Numeric)
+
+    agent_id = Column(Integer, ForeignKey('Agent.id'))
+    agent = relationship(Agent)
+    cycle_id = Column(Integer, ForeignKey('Cycle.id'))
+    cycle = relationship(Cycle)
 
 
 class AgentSummary(Base):
@@ -108,18 +126,6 @@ class OfficeSummary(Base):
 
     office_id = Column(Integer, ForeignKey('Office.id'))
     office = relationship(Office)
-    cycle_id = Column(Integer, ForeignKey('Cycle.id'))
-    cycle = relationship(Cycle)
-
-
-class AgentCommission(Base):
-    __tablename__ = 'AgentCommission'
-    id = Column('id', Integer, primary_key=True)
-
-    commission_amount = Column('commission_amount', Numeric)
-
-    agent_id = Column(Integer, ForeignKey('Agent.id'))
-    agent = relationship(Agent)
     cycle_id = Column(Integer, ForeignKey('Cycle.id'))
     cycle = relationship(Cycle)
 
