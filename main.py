@@ -12,6 +12,8 @@ class Agent(Base):
 
     firest_name = Column('firest_name', String)
     last_name = Column('last_name', String)
+    phone_number = Column('phone_number', String)
+    email_address = Column('email_address', String)
 
 class Office(Base):
     __tablename__ = 'Office'
@@ -30,6 +32,16 @@ class AgentOffice(Base):
     office = relationship(Office)
 
 
+class House(Base):
+    __tablename__ = 'House'
+    id = Column('id', Integer, primary_key=True)
+
+    num_of_bedroom = Column('num_of_bedroom', Integer)
+    num_of_bathroom = Column('num_of_bathroom', Integer)
+    address = Column('address', String)
+    zipcode = Column('zipcode', String)
+
+
 class Listing(Base):
     __tablename__ = 'Listing'
     id = Column('id', Integer, primary_key=True)
@@ -40,15 +52,8 @@ class Listing(Base):
 
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
-
-
-class House(Base):
-    __tablename__ = 'House'
-    id = Column('id', Integer, primary_key=True)
-
-    num_of_bedroom = Column('num_of_bedroom', Integer)
-    num_of_bathroom = Column('num_of_bathroom', Integer)
-    zipcode = Column('zipcode', Integer)
+    house_id = Column(Integer, ForeignKey('House.id'))
+    house = relationship(House)
 
 
 class Buyer(Base):
@@ -57,6 +62,8 @@ class Buyer(Base):
 
     firest_name = Column('firest_name', String)
     last_name = Column('last_name', String)
+    phone_number = Column('phone_number', String)
+    email_address = Column('email_address', String)
 
 
 class Sale(Base):
@@ -70,6 +77,51 @@ class Sale(Base):
     listing = relationship(Listing)
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
+
+
+class Cycle(Base):
+    __tablename__ = 'Cycle'
+    id = Column('id', Integer, primary_key=True)
+
+    name = Column('name', String)
+    starting_date = Column('starting_date', String)
+    ending_date = Column('ending_date', String)
+
+
+class AgentSummary(Base):
+    __tablename__ = 'AgentSummary'
+    id = Column('id', Integer, primary_key=True)
+
+    total_sale = Column('total_sale', Numeric)
+
+    agent_id = Column(Integer, ForeignKey('Agent.id'))
+    agent = relationship(Agent)
+    cycle_id = Column(Integer, ForeignKey('Cycle.id'))
+    cycle = relationship(Cycle)
+
+
+class OfficeSummary(Base):
+    __tablename__ = 'OfficeSummary'
+    id = Column('id', Integer, primary_key=True)
+
+    total_sale = Column('total_sale', Numeric)
+
+    office_id = Column(Integer, ForeignKey('Office.id'))
+    office = relationship(Office)
+    cycle_id = Column(Integer, ForeignKey('Cycle.id'))
+    cycle = relationship(Cycle)
+
+
+class AgentCommission(Base):
+    __tablename__ = 'AgentCommission'
+    id = Column('id', Integer, primary_key=True)
+
+    commission_amount = Column('commission_amount', Numeric)
+
+    agent_id = Column(Integer, ForeignKey('Agent.id'))
+    agent = relationship(Agent)
+    cycle_id = Column(Integer, ForeignKey('Cycle.id'))
+    cycle = relationship(Cycle)
 
 
 engine = create_engine('sqlite:///real-estate.db', echo=True)
