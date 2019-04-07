@@ -73,6 +73,7 @@ def seed_data(session, num_of_agent=80, num_of_office=30, num_of_buyer=150,
     listing_ids = random.sample(range(1, num_of_listing+1), num_of_sale)
     for listing_id in listing_ids:
         listing = session.query(Listing).get(listing_id)
+        listing.status = 'sold'
 
         # different situations of how the transition between listing and sale happens
         # the logic leaky as the next random choice may be the same as the last one
@@ -106,3 +107,5 @@ def seed_data(session, num_of_agent=80, num_of_office=30, num_of_buyer=150,
                     listing=listing)
         session.add(sale)
     session.commit()
+
+    print ("Database seeded with random data")
