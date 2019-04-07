@@ -7,10 +7,17 @@ from sqlalchemy.orm import sessionmaker
 from schema import Base
 from seed import seed_data
 
-engine = create_engine('sqlite:///real-estate.db', echo=False)
-Base.metadata.create_all(bind=engine)
+def main():
+    # setup database
+    engine = create_engine('sqlite:///real-estate.db', echo=False)
+    Base.metadata.drop_all(bind=engine)   # reset database
+    Base.metadata.create_all(bind=engine)   # create tables
 
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+    # seed 
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+    seed_data(session)
 
-seed_data(session)
+
+if __name__ == '__main__':
+    main()

@@ -1,10 +1,16 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, ForeignKey, Integer, Numeric, Boolean, String
+from sqlalchemy import Table, Column, ForeignKey, Integer, Numeric, Boolean, String
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 
 
 Base = declarative_base()
+
+agent_office = Table('AgentOffice', Base.metadata,
+    Column('agent_id', Integer, ForeignKey('Agent.id')),
+    Column('office_id', Integer, ForeignKey('Office.id'))
+)
+
 
 class Agent(Base):
     __tablename__ = 'Agent'
@@ -15,6 +21,9 @@ class Agent(Base):
     phone_number = Column('phone_number', String)
     email_address = Column('email_address', String)
 
+    offices = relationship('Office', secondary=agent_office, back_populates='agents')
+
+
 class Office(Base):
     __tablename__ = 'Office'
     id = Column('id', Integer, primary_key=True)
@@ -22,14 +31,7 @@ class Office(Base):
     name = Column('name', String)
     address = Column('address', String)
 
-class AgentOffice(Base):
-    __tablename__ = 'AgentOffice'
-    id = Column('id', Integer, primary_key=True)
-
-    agent_id = Column(Integer, ForeignKey('Agent.id'))
-    agent = relationship(Agent)
-    office_id = Column(Integer, ForeignKey('Office.id'))
-    office = relationship(Office)
+    agents = relationship('Agent', secondary=agent_office, back_populates='offices')
 
 
 class House(Base):
