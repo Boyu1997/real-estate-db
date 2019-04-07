@@ -16,7 +16,7 @@ class Agent(Base):
     __tablename__ = 'Agent'
     id = Column('id', Integer, primary_key=True)
 
-    firest_name = Column('firest_name', String)
+    first_name = Column('first_name', String)
     last_name = Column('last_name', String)
     phone_number = Column('phone_number', String)
     email_address = Column('email_address', String)
@@ -64,7 +64,7 @@ class Buyer(Base):
     __tablename__ = 'Buyer'
     id = Column('id', Integer, primary_key=True)
 
-    firest_name = Column('firest_name', String)
+    first_name = Column('first_name', String)
     last_name = Column('last_name', String)
     phone_number = Column('phone_number', String)
     email_address = Column('email_address', String)

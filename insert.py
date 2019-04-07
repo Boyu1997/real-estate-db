@@ -1,14 +1,14 @@
 from schema import Agent, Office, Buyer, House, Listing, Sale
 
 
-def new_agent(session, firest_name, last_name, phone_number, email_address):
-    agent = Agent(firest_name=firest_name,
+def new_agent(session, first_name, last_name, phone_number, email_address):
+    agent = Agent(first_name=first_name,
                   last_name=last_name,
                   phone_number=phone_number,
                   email_address=email_address)
     session.add(agent)
     session.commit()
-    print ("New aget created with first name {:s}".format(firest_name))
+    print ("New aget created with first name {:s}".format(first_name))
 
 
 def new_office_with_agents(session, name, address, agent_ids):
@@ -43,10 +43,10 @@ def new_listing(session, num_of_bedroom, num_of_bathroom, address, zipcode,
     print ("New listing created with price {:d}".format(listing_price))
 
 
-def new_sale(session, firest_name, last_name, phone_number, email_address, sale_price,
+def new_sale(session, first_name, last_name, phone_number, email_address, sale_price,
              date_of_sale, agent_id, office_id, listing_id):
     # create buyer
-    buyer = Buyer(firest_name=firest_name,
+    buyer = Buyer(first_name=first_name,
                   last_name=last_name,
                   phone_number=phone_number,
                   email_address=email_address)

@@ -20,7 +20,7 @@ def get_agent_commission(session, agent_id, cycle_id):
     if agent_commission == None:
         agent_commission = AgentCommission(commission_amount=0,
                                            agent_id=agent_id,
-                                           cycle_id=agent_id)
+                                           cycle_id=cycle_id)
         session.add(agent_commission)
         session.commit()
     return agent_commission

@@ -4,10 +4,14 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from datetime import datetime, timedelta
+
 from schema import Base, Sale
 from insert import new_agent, new_office_with_agents, new_listing, new_sale
 from seed import seed_data
 from calculate import calculate
+from report import print_report
+
 
 def reset_db(engine):
     Base.metadata.drop_all(bind=engine)   # reset database
@@ -42,17 +46,26 @@ def main():
     # new sale
     new_sale(session, 'Dolores', 'Gillispie', '(404)449-8679',
              'd.gillispie@gmail.com', 950000, '2019-03-19', 2, 1, 1)
+    print ("")
 
 
     ### seed random data ###
     session = reset_db(engine)   # reset databese to remove existing data
     seed_data(session)
 
-    ### Calculate Commission and Summary ###
+
+    ### calculate commission and summary ###
     sales = session.query(Sale).all()
     for sale in sales:
         calculate(session, sale)
     print ("Commission and summary calculated")
+
+
+    ### print report ###
+    datetime_object = datetime.today().replace(day=1) - timedelta(days=1)   # get last month's year and month
+    year = datetime_object.year
+    month = datetime_object.month
+    print_report(session, year, month)
 
 
 if __name__ == '__main__':

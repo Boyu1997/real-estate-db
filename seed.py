@@ -12,7 +12,7 @@ def seed_data(session, num_of_agent=30, num_of_office=10, num_of_buyer=300,
 
     # create random agent
     for i in range(num_of_agent):
-        agent = Agent(firest_name=fake.first_name(),
+        agent = Agent(first_name=fake.first_name(),
                       last_name=fake.last_name(),
                       phone_number=fake.phone_number(),
                       email_address=fake.email())
@@ -34,7 +34,7 @@ def seed_data(session, num_of_agent=30, num_of_office=10, num_of_buyer=300,
 
     # create random buyers
     for i in range(num_of_buyer):
-        buyer = Buyer(firest_name=fake.first_name(),
+        buyer = Buyer(first_name=fake.first_name(),
                       last_name=fake.last_name(),
                       phone_number=fake.phone_number(),
                       email_address=fake.email())
