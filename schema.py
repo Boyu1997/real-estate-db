@@ -48,7 +48,7 @@ class Listing(Base):
     __tablename__ = 'Listing'
     id = Column('id', Integer, primary_key=True)
 
-    listing_price = Column('listing_price', Numeric)
+    listing_price = Column('listing_price', Integer)
     date_of_listing = Column('date_of_listing', String)
     status = Column('status', String)
 
@@ -74,7 +74,7 @@ class Sale(Base):
     __tablename__ = 'Sale'
     id = Column('id', Integer, primary_key=True)
 
-    sale_price = Column('sale_price', Numeric)
+    sale_price = Column('sale_price', Integer)
     date_of_sale = Column('date_of_sale', String)
 
     listing_id = Column(Integer, ForeignKey('Listing.id'))
@@ -100,7 +100,7 @@ class AgentCommission(Base):
     __tablename__ = 'AgentCommission'
     id = Column('id', Integer, primary_key=True)
 
-    commission_amount = Column('commission_amount', Numeric)
+    commission_amount = Column('commission_amount', Integer)
 
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
@@ -112,7 +112,7 @@ class AgentSummary(Base):
     __tablename__ = 'AgentSummary'
     id = Column('id', Integer, primary_key=True)
 
-    total_sale = Column('total_sale', Numeric)
+    total_sale = Column('total_sale', Integer)
 
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
@@ -124,7 +124,7 @@ class OfficeSummary(Base):
     __tablename__ = 'OfficeSummary'
     id = Column('id', Integer, primary_key=True)
 
-    total_sale = Column('total_sale', Numeric)
+    total_sale = Column('total_sale', Integer)
 
     office_id = Column(Integer, ForeignKey('Office.id'))
     office = relationship(Office)
