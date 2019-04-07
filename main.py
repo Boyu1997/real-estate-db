@@ -4,9 +4,10 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from schema import Base
+from schema import Base, Sale
 from insert import new_agent, new_office_with_agents, new_listing, new_sale
 from seed import seed_data
+from calculate import calculate
 
 def reset_db(engine):
     Base.metadata.drop_all(bind=engine)   # reset database
@@ -46,6 +47,12 @@ def main():
     ### seed random data ###
     session = reset_db(engine)   # reset databese to remove existing data
     seed_data(session)
+
+    ### Calculate Commission and Summary ###
+    sales = session.query(Sale).all()
+    for sale in sales:
+        calculate(session, sale)
+    print ("Commission and summary calculated")
 
 
 if __name__ == '__main__':

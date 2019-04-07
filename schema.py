@@ -91,9 +91,8 @@ class Cycle(Base):
     __tablename__ = 'Cycle'
     id = Column('id', Integer, primary_key=True)
 
-    name = Column('name', String)
-    starting_date = Column('starting_date', String)
-    ending_date = Column('ending_date', String)
+    year = Column('year', Integer)
+    month = Column('month', Integer)
 
 
 class AgentCommission(Base):

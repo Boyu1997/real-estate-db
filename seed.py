@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 
 from schema import Agent, Office, Buyer, House, Listing, Sale
 
-def seed_data(session, num_of_agent=80, num_of_office=30, num_of_buyer=150,
-              num_of_house=300, num_of_listing=200, num_of_sale=100):
+def seed_data(session, num_of_agent=30, num_of_office=10, num_of_buyer=300,
+              num_of_house=500, num_of_listing=300, num_of_sale=200):
 
     fake = Faker('en_US')
 
@@ -58,7 +58,7 @@ def seed_data(session, num_of_agent=80, num_of_office=30, num_of_buyer=150,
     for house_id in house_ids:
         office = session.query(Office).get(random.randint(1,num_of_office))
         agent = random.choice(office.agents)
-        listing = Listing(listing_price=random.randint(10000,100000000),
+        listing = Listing(listing_price=1000*random.randint(10,5000),
                           date_of_listing=fake.date_between(start_date='-1y', end_date='today'),
                           status='available',
                           agent=agent,
@@ -94,9 +94,12 @@ def seed_data(session, num_of_agent=80, num_of_office=30, num_of_buyer=150,
         sale_datetime = listing_datetime + timedelta(days=random.randint(0, days_variant))
         date_of_sale = listing_datetime.strftime('%Y-%m-%d')
 
-        # calculate sale price base on listing price
-        price_variant = min(100000, int(listing.listing_price))
-        sale_price = listing.listing_price + random.randint(-price_variant,price_variant)
+        # decide sale price base on listing price with probability
+        if random.random() < 0.6:   # sale price is the same as listing price
+            sale_price = listing.listing_price
+        else:   # sale price is different from listing price
+            price_variant = int(listing.listing_price/1000/4)   # 25% of listing price in thousand dollar
+            sale_price = listing.listing_price + 1000*random.randint(-price_variant,price_variant)
 
         # create sale object to insert
         sale = Sale(sale_price=sale_price,
