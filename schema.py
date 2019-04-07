@@ -50,7 +50,7 @@ class Listing(Base):
 
     listing_price = Column('listing_price', Numeric)
     date_of_listing = Column('date_of_listing', String)
-    sold = Column('status', String)
+    status = Column('status', String)
 
     agent_id = Column(Integer, ForeignKey('Agent.id'))
     agent = relationship(Agent)
