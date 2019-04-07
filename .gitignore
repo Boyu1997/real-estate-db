@@ -1,5 +1,6 @@
-### Python Env ###
+### Python ###
 /env
+/__pycache__
 
 ### macOS ###
 .DS_Store
